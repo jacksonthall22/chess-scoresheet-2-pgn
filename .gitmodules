@@ -2,5 +2,5 @@
 	path = labelImg
 	url = https://github.com/jacksonthall22/labelImg.git
 [submodule "YOLO-World"]
-	path = YOLO-World
+	path = YOLO_World
 	url = https://github.com/jacksonthall22/YOLO-World.git
