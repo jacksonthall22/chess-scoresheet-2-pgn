@@ -1,1 +1,6 @@
 *.env
+*.pyc
+__pycache__/
+data/ultralytics_yolo_format/
+.vscode/
+fine_tuning/yolov8n.pt
