@@ -487,7 +487,16 @@ def get_char_probs(image: Image) -> dict[str, float]:
     character. Return a dict mapping each character to its probability,
     sorted in descending order.
 
+    TODO
     Supported characters should be: abcdefgh12345678xNBRQKO-+#=P!?
+    Maybe some special glyph chars to ignore?:
+      - □ (only move)
+      - ⨀ (zugzwang)
+      - ↑ (has initiative)
+      - → (has attack)
+      - ⇆ (has counterplay)
+      - ⨁ (time pressure)
+    etc (https://en.wikipedia.org/wiki/Numeric_Annotation_Glyphs)
     """
     raise NotImplementedError("TODO")
 
@@ -513,8 +522,6 @@ def get_top_k_most_likely_sans(
     """
     if excluded_sans is None:
         excluded_sans = []
-    if beam_width is None:
-        beam_width = k * 10
 
     def _update_running_predicion_with_new_char_pred(
         pred_str: str,
