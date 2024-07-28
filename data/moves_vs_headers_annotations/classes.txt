@@ -1,0 +1,5 @@
+scoresheet
+moves
+notes
+diagram
+headers

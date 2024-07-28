@@ -1,0 +1,10 @@
+scoresheet
+headers
+moves
+notes
+diagram
+cell
+column
+written move
+written character
+text
