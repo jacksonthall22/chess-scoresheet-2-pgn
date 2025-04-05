@@ -207,13 +207,13 @@ def get_sans_to_pseudo_sans_map(board: Board) -> dict[str, list[str]]:
     instead of the "correct" SAN.
 
     For example, if "Bxc6" taking a knight is a legal move, also add:
-      - "BxN"
-      - "b5c6"
+      - "BxN" (if this is the only way a bishop could take a knight)
+      - "b5c6" (an alternative way to write the move)
       - "Bx" (if it's the only legal bishop capture)
       - "xc6" (if no other piece can take on c6)
       - etc.
 
-    The returned dict maps each valid SAN to a `list` of **globally unique**
+    The returned dict maps each valid SAN to a list of **globally unique**
     SANs/pseudo-SANs that could represent it (including the valid SAN itself).
     This means all the elements in the values (lists) of the returned dict are
     guaranteed to be unique so there won't be any ambiguity when mapping back
@@ -472,12 +472,15 @@ def get_handwriting_char_bboxes(blob_image: Image) -> list[YoloBbox]:
 
 
 def get_move_cell_bboxes_by_ply(moves_section_image: Image) -> dict[int, YoloBbox]:
+    """Return a dict mapping move ply numbers to their bounding boxes."""
     move_cell_bboxes = get_move_cell_bboxes(moves_section_image)
     column_bboxes = get_column_bboxes(moves_section_image)
 
     move_cell_bboxes_by_ply = {}
     for move_cell_bbox in move_cell_bboxes:
         ...
+    
+    # TODO
 
 
 def get_char_probs(image: Image) -> dict[str, float]:
@@ -488,15 +491,10 @@ def get_char_probs(image: Image) -> dict[str, float]:
     sorted in descending order.
 
     TODO
-    Supported characters should be: abcdefgh12345678xNBRQKO-+#=P!?
-    Maybe some special glyph chars to ignore?:
-      - □ (only move)
-      - ⨀ (zugzwang)
-      - ↑ (has initiative)
-      - → (has attack)
-      - ⇆ (has counterplay)
-      - ⨁ (time pressure)
-    etc (https://en.wikipedia.org/wiki/Numeric_Annotation_Glyphs)
+    Supported characters for SAN should be: abcdefgh12345678xNBRQKO-+#=P!?
+    
+    It's also legal in USCF/FIDE to write the time remaining on the clock
+    next to the move, so we should probably also support: 1234567890:.
     """
     raise NotImplementedError("TODO")
 
@@ -551,7 +549,7 @@ def get_top_k_most_likely_sans(
         Sort the given `candidates` using `_beam_candidate_loss()` and select
         the top `beam_width` candidates and returns the values for the new beam.
         """
-        return _sort_beam_candidates(candidates)[:beam_width]        
+        return _sort_beam_candidates(candidates)[:beam_width]
 
     pseudo_sans_to_sans_map = get_pseudo_sans_to_sans_map(board)
     """A mapping of possible pseudo-SANs to their corresponding legal move in correct SAN notation."""
