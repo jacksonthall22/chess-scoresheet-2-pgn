@@ -1,0 +1,10 @@
+path: ../data/ultralytics_yolo_format
+train: images/train
+val: images/val
+
+names:
+  0: scoresheet
+  1: moves
+  2: notes
+  3: diagram
+  4: headers
